@@ -19,8 +19,8 @@ variable "callback_path" {
   default     = "/auth/callback"
 }
 
-variable "logout_path" {
+variable "logout_redirect_path" {
   type        = string
-  description = "Application logout path"
-  default     = "/auth/logout"
+  description = "Application path to redirect to after logout"
+  default     = "/auth/login"
 }
