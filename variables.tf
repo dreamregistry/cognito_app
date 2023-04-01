@@ -11,6 +11,19 @@ variable "cognito_user_pool_domain" {
 variable "root_url" {
   type        = string
   description = "Application root url"
+  default     = null
+}
+
+variable "root_domain" {
+  type        = string
+  description = "Application root domain"
+  default     = null
+}
+
+variable "domain_name_prefix" {
+  type        = string
+  description = "Application domain name prefix"
+  default     = null
 }
 
 variable "callback_path" {
