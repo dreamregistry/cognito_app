@@ -13,6 +13,11 @@ output "COGNITO_ISSUER_URL" {
   value     = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${var.cognito_user_pool_id}"
 }
 
+output "COGNITO_DISCOVERY_URL" {
+  sensitive = false
+  value     = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${var.cognito_user_pool_id}/.well-known/openid-configuration"
+}
+
 output "COGNITO_LOGOUT_URL" {
   value     = "${var.cognito_user_pool_domain}/logout"
 }
