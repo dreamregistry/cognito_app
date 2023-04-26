@@ -30,13 +30,39 @@ resource "aws_cognito_user_pool_client" "client" {
 
   user_pool_id = var.cognito_user_pool_id
 
-  generate_secret                      = true
-  callback_urls                        = ["${local.app_base_url}${var.callback_path}"]
-  logout_urls                          = [
+  generate_secret = true
+  callback_urls   = ["${local.app_base_url}${var.callback_path}"]
+  logout_urls     = [
     "${local.app_base_url}${var.logout_redirect_path}"
   ]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
   supported_identity_providers         = ["COGNITO"]
+}
+
+locals {
+  client_secret_parameter_key = "/cognito_app/${random_pet.client_name.id}/client_secret"
+}
+
+resource "terraform_data" "set_client_secret_parameter" {
+  triggers_replace = [
+    local.client_secret_parameter_key,
+    var.cognito_user_pool_id,
+    aws_cognito_user_pool_client.client.id
+  ]
+  provisioner "local-exec" {
+    command = templatefile("${path.module}/create_client_secret_parameter.tpl", {
+      parameterKey = local.client_secret_parameter_key,
+      userPoolId   = var.cognito_user_pool_id,
+      clientId     = aws_cognito_user_pool_client.client.id,
+    })
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = templatefile("${path.module}/delete_client_secret_parameter.tpl", {
+      parameterKey = self.triggers_replace[0],
+    })
+  }
 }
