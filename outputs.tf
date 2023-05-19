@@ -1,31 +1,27 @@
 output "OIDC_CLIENT_ID" {
-  value     = aws_cognito_user_pool_client.client.id
+  value = module.cognito_app.OIDC_CLIENT_ID
 }
 
 output "OIDC_CLIENT_SECRET" {
-  value = {
-    type   = "ssm"
-    key    = local.client_secret_parameter_key
-    region = data.aws_region.current.name
-  }
+  value = module.cognito_app.OIDC_CLIENT_SECRET
 }
 
 output "OIDC_ISSUER_URL" {
-  value     = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${var.cognito_user_pool_id}"
+  value = module.cognito_app.OIDC_ISSUER_URL
 }
 
 output "OIDC_DISCOVERY_URL" {
-  value     = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${var.cognito_user_pool_id}/.well-known/openid-configuration"
+  value = module.cognito_app.OIDC_DISCOVERY_URL
 }
 
 output "OIDC_LOGOUT_URL" {
-  value     = "${var.cognito_user_pool_domain}/logout"
+  value = module.cognito_app.OIDC_LOGOUT_URL
 }
 
 output "OIDC_LOGOUT_REDIRECT_URL" {
-  value = tolist(aws_cognito_user_pool_client.client.logout_urls)[0]
+  value = module.cognito_app.OIDC_LOGOUT_REDIRECT_URL
 }
 
 output "OIDC_CALLBACK_URL" {
-  value = tolist(aws_cognito_user_pool_client.client.callback_urls)[0]
+  value = module.cognito_app.OIDC_CALLBACK_URL
 }
