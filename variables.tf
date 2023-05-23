@@ -14,13 +14,13 @@ variable "root_url" {
   default     = null
 }
 
-variable "root_domain" {
+variable "domain_suffix" {
   type        = string
   description = "Application root domain"
   default     = null
 }
 
-variable "domain_name_prefix" {
+variable "domain_prefix" {
   type        = string
   description = "Application domain name prefix"
   default     = null

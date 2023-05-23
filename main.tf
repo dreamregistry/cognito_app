@@ -14,7 +14,7 @@ provider "aws" {}
 data "aws_region" "current" {}
 
 locals {
-  app_base_url = var.root_url != null ? var.root_url : "https://${var.domain_name_prefix}.${var.root_domain}"
+  app_base_url = var.root_url != null ? var.root_url : "https://${var.domain_prefix}.${var.domain_suffix}"
 }
 
 module "cognito_app" {
